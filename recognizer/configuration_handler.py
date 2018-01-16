@@ -32,7 +32,7 @@ class configuration_handler(object):
       signal.signal(signal.SIGIO, self.handler)
       fd = os.open(directory,  os.O_RDONLY)
       fcntl.fcntl(fd, fcntl.F_SETSIG, 0)
-      fcntl.fcntl(fd, fcntl.F_NOTIFY, fcntl.DN_MODIFY )
+      fcntl.fcntl(fd, fcntl.F_NOTIFY, fcntl.DN_MODIFY | fcntl.DN_MULTISHOT )
 
 
 def touch(fname):
