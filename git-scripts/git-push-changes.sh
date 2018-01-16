@@ -2,7 +2,7 @@
 
 test -z $1 && echo "Commit description required." 1>&2 && exit 1
 
-git add .
+git add ../
 
 git checkout
 
