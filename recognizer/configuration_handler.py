@@ -6,29 +6,38 @@ from os.path import exists
 
 listener = None
 
-class configuration_handler(object):
+directory = '/root/recognizer_configuration/'
+configuration_file_name='recognizer.json'
 
-   configuration_file_path = '/root/test.txt'
+class configuration_handler(object):
 
    def callback(self):
       print('Event detected')
 
-   def load_configuration(self):
-      if exists(self.configuration_file_path):
-         add_event_on_file_change(self.configuration_file_path, self)
-      else:
-         print("Configuration file not found! %s...abort!" % self.configuration_file_path)
+   def load_configuration(self, attach_listener_on_file_change=True):
 
+      if not os.path.exists(directory):
+         os.makedirs(directory)
 
-def handler(signum, frame):
-   if listener:
-      listener.callback()
+      if not exists(directory + configuration_file_name):
+         touch(directory + configuration_file_name)
 
-def add_event_on_file_change(filename, in_listener):
-   if in_listener:
-      listener = in_listener
-      signal.signal(signal.SIGIO, handler)
-      fd = os.open(filename,  os.O_RDONLY)
+      if attach_listener_on_file_change:
+         self.add_event_on_file_change(directory)
+
+   def handler(self, signum, frame):
+      self.callback()
+
+   def add_event_on_file_change(self, directory):
+      signal.signal(signal.SIGIO, self.handler)
+      fd = os.open(directory,  os.O_RDONLY)
       fcntl.fcntl(fd, fcntl.F_SETSIG, 0)
       fcntl.fcntl(fd, fcntl.F_NOTIFY, fcntl.DN_MODIFY )
+
+
+def touch(fname):
+   if os.path.exists(fname):
+      os.utime(fname, None)
+   else:
+      open(fname, 'a').close()
 

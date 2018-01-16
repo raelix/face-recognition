@@ -14,4 +14,6 @@ print("Hello")
 
 
 for i in xrange(1000):
+ import time
+ time.sleep(10)
  pass
