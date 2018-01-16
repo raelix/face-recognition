@@ -3,14 +3,14 @@ services:
 
   db:
     image: postgres
-    container_name: dlib_db
+    container_name: recognizer_db
     expose:
       - "5432"
 
   web:
     build: .
-    container_name: dlib
-    hostname: dlib
+    container_name: recognizer
+    hostname: recognizer 
     volumes:
       - ./:/root/shared
     ports:

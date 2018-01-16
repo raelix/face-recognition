@@ -19,6 +19,10 @@ echo "root:hammer" | chpasswd
 cp sshd_config /etc/ssh/
 service ssh restart
 
+# Enable Python syntax completion 
+cp .pythonrc ~/.pythonrc
+cp .bashrc ~/.bashrc
+
 
 # Postgres init
 
