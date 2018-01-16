@@ -16,7 +16,6 @@ services:
     ports:
       - "2222:22"
     working_dir: /root/shared
-    #command: /bin/bash
-    command: bash -c "./wait-for-it.sh"
+    command: bash -c "./init-script.sh"
     links:
       - db
