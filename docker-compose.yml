@@ -15,6 +15,9 @@ services:
       - ./:/root/shared
     ports:
       - "2222:22"
+      - "1900:1900/udp"
+      - "52:52"
+      - "52:52/udp"
     working_dir: /root/shared
     command: bash -c "./init-script.sh"
     links:

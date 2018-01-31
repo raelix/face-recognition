@@ -33,7 +33,7 @@ until psql -h "db" -p 5432 -U "postgres" -c '\l'; do
 done
 >&2 echo "Postgres is up..."
 
-
+psql -h "recognizer_db" -U "postgres" -p 5432 -a -q -f database/tables.sql
 # Avoid exit 
 
 while true; do sleep 1; done

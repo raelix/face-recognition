@@ -54,17 +54,18 @@ RUN apt-get update \
     vim \
     postgresql-client \
     python-psycopg2 \
+    sshpass \
     && apt-get autoremove \
     && apt-get clean
 
 RUN apt-get install -f -y postgresql-client
     #apt-get clean && rm -rf /tmp/* /var/tmp/*
 
-#RUN cd ~ && \
-#    mkdir -p dlib && \
-#    git clone https://github.com/davisking/dlib.git dlib/ && \
-#    cd  dlib/ && \
-#    python setup.py install --yes USE_AVX_INSTRUCTIONS
+RUN cd ~ && \
+    mkdir -p dlib && \
+    git clone https://github.com/davisking/dlib.git dlib/ && \
+    cd  dlib/ && \
+    python setup.py install --yes USE_AVX_INSTRUCTIONS
 
 RUN pip install -U "setuptools==3.4.1"
 RUN pip install -U "pip==1.5.4"
