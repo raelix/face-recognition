@@ -6,7 +6,7 @@ CREATE DATABASE home;
 -- Tables definitions
 
 CREATE TABLE IF NOT EXISTS data (
-  id SERI:qAL,
+  id SERIAL,
   hour               integer       not null,
   day                varchar       not null,
   is_user_at_home    boolean       not null,
