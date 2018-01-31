@@ -2,6 +2,7 @@
 import requests
 import json
 import datetime
+from welcome_credential import payload
 
 def find_user(user='Gianmarco', body={}):
     if body:
@@ -29,14 +30,6 @@ def find_user(user='Gianmarco', body={}):
             print(e)
             pass
     
-	
-
-payload = {'grant_type': 'password',
-           'username': "gianmarco.ascenzo@gmail.com",
-           'password': "Hmr_Admin",
-           'client_id':"5a668173923dfefa918b58cd",
-           'client_secret': "7GjlMgfslsBr30TrCnXnHE6m9q",
-	    'scope': 'read_camera access_camera'}
 try:
     headers= {'Content-Type': 'application/x-www-form-urlencoded'}
     response = requests.post("https://api.netatmo.com/oauth2/token", data=payload)
