@@ -1,59 +1,41 @@
 #!/usr/bin/python
+
 import requests
 import json
 import datetime
-from welcome_credential import payload
+import logging
+from welcome_credential import payload, __produce_getlasteventofParams
 
-def find_user(user='Gianmarco', body={}):
-    if body:
-        try:
-            home = body['homes'][0]
-            events_list = home['events']
-            for event in events_list:
-                #print(event)
-                #print(event["time"])
-                if event['person_id'] == '187e30ee-2316-4e2b-90fd-07a29e3fe5ed':
-                 print(datetime.datetime.fromtimestamp(int(event["time"])).strftime('%Y-%m-%d %H:%M:%S'))
-            for person in home['persons']:
-                if person['id'] == '187e30ee-2316-4e2b-90fd-07a29e3fe5ed':
-                 print(datetime.datetime.fromtimestamp(int(person['last_seen'])).strftime('%Y-%m-%d %H:%M:%S'))
-                #print(event['message'].decode('ascii'))
-#                if event.has_key("message"):
-#                    print(event["message"])
-                #print(event.has_key("message"))
-                #ev_str = event['message'].decode('ascii')
-                #if ev_str.startswith("<b>"+user):
-                #    id_p=event['message']['person_id']
-                #    print(id_p)
-                #    return id_p
-        except Exception, e:
-            print(e)
-            pass
-    
-try:
-    headers= {'Content-Type': 'application/x-www-form-urlencoded'}
-    response = requests.post("https://api.netatmo.com/oauth2/token", data=payload)
-    response.raise_for_status()
-    access_token=response.json()["access_token"]
-    refresh_token=response.json()["refresh_token"]
-    scope=response.json()["scope"]
-    print("Your access token is:", access_token)
-    print("Your refresh token is:", refresh_token)
-    print("Your scopes are:", scope)
-except requests.exceptions.HTTPError as error:
-    print (error)
-    print(error.response.status_code, error.response.text)
 
-params = {
-	'access_token':access_token
-}
+def __get_token():
+    try:
+        response = requests.post("https://api.netatmo.com/oauth2/token", data=payload)
+        response.raise_for_status()
+        access_token = response.json()["access_token"]
+        return access_token
+    except requests.exceptions.HTTPError as error:
+        logging.error(error.response.status_code, error.response.text)
 
-try:
-    response = requests.post("https://api.netatmo.com/api/gethomedata", params=params)
-    response.raise_for_status()
-    data = response.json()["body"]
-    find_user("Gianmarco",data)
-except requests.exceptions.HTTPError as error:
-    print(error.response.status_code, error.response.text)
+def is_user_present(user='Gianmarco'):
+    try:
+        response = requests.post("https://api.netatmo.com/api/getlasteventof",
+                                 params=__produce_getlasteventofParams(__get_token()))
+        response.raise_for_status()
+        events = response.json()['body']['events_list']
+        for event in events:
+            if user in event['message']:
+                return True
+    except requests.exceptions.HTTPError as error:
+        logging.error(error.response.status_code, error.response.text)
+    return False
+
+def get_number_of_people():
+    try:
+        response = requests.post("https://api.netatmo.com/api/getlasteventof",
+                                 params=__produce_getlasteventofParams(__get_token()))
+        response.raise_for_status()
+        return len(response.json()['body']['events_list'])
+    except requests.exceptions.HTTPError as error:
+        logging.error(error.response.status_code, error.response.text)
 
 
