@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import datetime
-from populate_table import insert_data
+from populate_table import insert_data,read_data
 from netatmo.welcome_api import get_number_of_people, is_user_present
 from tv.lg_api import is_tv_on
 from hue.hue_api import get_main_light_status, get_secondary_light_status, is_main_light_on, is_secondary_light_on, \
@@ -42,5 +42,4 @@ def __main__():
     print '            Day: %s' % get_day_of_week()
     print '           Hour: %s' % get_hour()
     insert_data(get_dictionary())
-
 __main__()
