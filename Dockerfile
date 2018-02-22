@@ -30,6 +30,7 @@ RUN apt-get update \
     python-psycopg2 \
     sshpass \
     python-skimage \
+    openssh-server \
     && apt-get autoremove \
     && apt-get clean
 
@@ -41,5 +42,5 @@ RUN cd ~ && \
     cd  dlib/ && \
     python setup.py install --yes USE_AVX_INSTRUCTIONS
 
-RUN pip install face_recognition
+#RUN pip install face_recognition
 

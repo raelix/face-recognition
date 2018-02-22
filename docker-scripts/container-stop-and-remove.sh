@@ -1,12 +1,14 @@
-#!/bin/sh
+#!/bin/bash
+
+name=$(cat ../docker-compose.yml  | grep container_name | cut -d ":" -f "2" )
 
 echo ""
 echo "Stopping containers"
-docker stop recognizer recognizer_db
+docker stop $name 
 
 echo ""
 echo "Removing containers"
-docker rm recognizer recognizer_db
+docker rm $name 
 
 echo ""
 echo "-------------------"

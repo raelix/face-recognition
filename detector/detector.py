@@ -23,6 +23,7 @@ def create_dir(directory):
 
 def detect_face(dst_dir, src_img, time_sleep):
     detector = dlib.get_frontal_face_detector()
+    print('Starting detector...')
     while True:
         img = io.imread(src_img)
         dets = detector(img, 1)
