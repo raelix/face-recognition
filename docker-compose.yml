@@ -9,6 +9,6 @@ services:
       - ./:/root/dev
     ports:
       - "80:80"
-      - "2222:22"    
+      - "32:22"    
     working_dir: /root/dev
     command: bash -c "./init-script.sh"
