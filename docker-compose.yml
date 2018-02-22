@@ -1,24 +1,14 @@
 version: "2"
 services:
 
-  db:
-    image: postgres
-    container_name: recognizer_db
-    expose:
-      - "5432"
-
-  web:
+  detector:
     build: .
-    container_name: recognizer
-    hostname: recognizer 
+    container_name: detector
+    hostname: detector 
     volumes:
-      - ./:/root/shared
+      - ./:/root/dev
     ports:
-      - "2222:22"
-      - "1900:1900/udp"
-      - "52:52"
-      - "52:52/udp"
-    working_dir: /root/shared
+      - "80:80"
+      - "2222:22"    
+    working_dir: /root/dev
     command: bash -c "./init-script.sh"
-    links:
-      - db
